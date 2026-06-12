@@ -1,14 +1,7 @@
-/*
-
-    units is just... what units are available given the category
-
-*/
-
-const UnitSelector = ({ units }) => {
+const UnitSelector = ({ units, updateUnits }) => {
   return (
     <div>
-      <select>
-        <textarea name="unit-text" id={`unit-`}></textarea>
+      <select onChange={(e) => updateUnits(e.target.value)}>
         {units.map((unit) => (
           <option value={`unit-${unit}`}>{unit}</option>
         ))}

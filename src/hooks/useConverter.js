@@ -33,6 +33,7 @@ export const useConverter = (initialValue = {
         fromValue,
         toUnit,
     }) => {
+        console.log('hit');
         const categoryConverters = converters[category];
 
         if (!categoryConverters) return;
@@ -50,21 +51,24 @@ export const useConverter = (initialValue = {
     }
 
     const updateCategory = (category) => {
-        setState(converters[category].defaultValues)
+        setState(converters[category].defaultValues);
     }
 
-    const updateUnits = (value) => {} 
+    const updateUnits = (input, newUnit) => {
+        const side = input === "from" ? "fromUnit" : "toUnit";
+        setState((prev) => ({
+            ...prev,
+            [side]: newUnit
+        }));
 
-    /*
-        Update inputs, then the last thing you do is call convert().
+        console.log(state);
+    } 
 
-        This will call convert.
-    */
     const updateInputs = (input, value) => {}
 
     return {
-        state,
         categories,
+        state,
         updateCategory,
         updateInputs,
         updateUnits,

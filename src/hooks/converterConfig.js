@@ -6,6 +6,7 @@ export const categories = {
 export const converters = {
     Temperature: {
         defaultValues: {
+            category: "Temperature",
             fromUnit: "F",
             fromValue: 32,
             toUnit: "C",
@@ -26,6 +27,7 @@ export const converters = {
     },
     Length: {
         defaultValues: {
+            category: "Length",
             fromUnit: "Foot",
             fromValue: 1,
             toUnit: "Yard",
