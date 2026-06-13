@@ -30,6 +30,8 @@ function App() {
         <div className="from-container">
           <UnitSelector
             label="From"
+            side="from"
+            selectedUnit={state.fromUnit}
             units={categories[state.category]}
             updateUnits={updateUnits}
           />
@@ -37,6 +39,7 @@ function App() {
             From Value
           </label>
           <input
+            onChange={(e) => updateInputs("from", e.target.value)}
             side="from"
             type="number"
             id="from-input"
@@ -48,6 +51,8 @@ function App() {
         <div className="to-container">
           <UnitSelector
             label="to"
+            side="to"
+            selectedUnit={state.toUnit}
             units={categories[state.category]}
             updateUnits={updateUnits}
           />
@@ -55,6 +60,7 @@ function App() {
             To Value
           </label>
           <input
+            onChange={(e) => updateInputs("to", e.target.value)}
             side="to"
             type="number"
             id="from-input"

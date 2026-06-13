@@ -1,9 +1,17 @@
-const UnitSelector = ({ units, updateUnits }) => {
+const UnitSelector = ({ label, units, side, selectedUnit, updateUnits }) => {
+  const id = `${label}-unit-select`;
   return (
     <div>
-      <select onChange={(e) => updateUnits(e.target.value)}>
+      <label htmlFor={id}>{label}</label>
+      <select
+        id={id}
+        value={selectedUnit}
+        onChange={(e) => updateUnits(side, e.target.value)}
+      >
         {units.map((unit) => (
-          <option value={`unit-${unit}`}>{unit}</option>
+          <option key={unit} value={unit}>
+            {unit}
+          </option>
         ))}
       </select>
     </div>

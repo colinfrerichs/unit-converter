@@ -27,13 +27,12 @@ export const useConverter = (initialValue = {
 }) => {
     const [ state, setState ] = useState(initialValue);
 
-    const convert = ({
+    const convertLTR = ({
         category,
         fromUnit,
         fromValue,
         toUnit,
     }) => {
-        console.log('hit');
         const categoryConverters = converters[category];
 
         if (!categoryConverters) return;
@@ -50,21 +49,58 @@ export const useConverter = (initialValue = {
         });
     }
 
+    const convertRTL = ({
+        category,
+        fromUnit,
+        toUnit,
+        toValue
+    }) => {
+        const categoryConverters = converters[category];
+
+        if (!categoryConverters) return;
+
+        const baseValue = categoryConverters[toUnit]?.toBase(toValue);
+        const fromValue = categoryConverters[fromUnit]?.fromBase(baseValue);
+
+        console.log('hello');
+        
+
+        setState({
+            category,
+            fromUnit,
+            fromValue,
+            toUnit,
+            toValue,
+        });
+    }
+
     const updateCategory = (category) => {
         setState(converters[category].defaultValues);
     }
 
     const updateUnits = (input, newUnit) => {
         const side = input === "from" ? "fromUnit" : "toUnit";
-        setState((prev) => ({
-            ...prev,
-            [side]: newUnit
-        }));
+        const updated = {
+            ...state,
+            [side]: newUnit,
+        }
 
-        console.log(state);
+        convertLTR(updated);
     } 
 
-    const updateInputs = (input, value) => {}
+    const updateInputs = (input, value) => {
+        if (input === "to") {
+            convertRTL({
+                ...state,
+                toValue: value,
+            });
+        }
+
+        convertLTR({
+            ...state,
+            fromValue: value,
+        });
+    }
 
     return {
         categories,
