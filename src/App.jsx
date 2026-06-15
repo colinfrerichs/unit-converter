@@ -20,7 +20,9 @@ function App() {
           onChange={(e) => updateCategory(e.target.value)}
         >
           {Object.keys(categories).map((category) => (
-            <option value={category}>{category}</option>
+            <option key={category} value={category}>
+              {category}
+            </option>
           ))}
         </select>
       </div>
@@ -29,43 +31,41 @@ function App() {
         <legend>Convert</legend>
         <div className="from-container">
           <UnitSelector
-            label="From"
-            side="from"
-            selectedUnit={state.fromUnit}
+            label="Left input"
+            selectedUnit={state.left.unit}
+            side="left"
             units={categories[state.category]}
             updateUnits={updateUnits}
           />
-          <label className="sr-only" htmlFor="from-input">
+          <label className="sr-only" htmlFor="left-input">
             From Value
           </label>
           <input
-            onChange={(e) => updateInputs("from", e.target.value)}
-            side="from"
+            onChange={(e) => updateInputs("left", e.target.value)}
             type="number"
-            id="from-input"
-            name="from-input"
-            value={state.fromValue}
+            id="left-input"
+            name="left-input"
+            value={state.left.value}
           />
         </div>
         <span aria-hidden="true">=</span>
         <div className="to-container">
           <UnitSelector
-            label="to"
-            side="to"
-            selectedUnit={state.toUnit}
+            label="Right input"
+            selectedUnit={state.right.unit}
+            side="right"
             units={categories[state.category]}
             updateUnits={updateUnits}
           />
-          <label className="sr-only" htmlFor="from-input">
+          <label className="sr-only" htmlFor="right-input">
             To Value
           </label>
           <input
-            onChange={(e) => updateInputs("to", e.target.value)}
-            side="to"
+            onChange={(e) => updateInputs("right", e.target.value)}
             type="number"
-            id="from-input"
-            name="from-input"
-            value={state.toValue}
+            id="right-input"
+            name="right-input"
+            value={state.right.value}
           />
         </div>
       </fieldset>

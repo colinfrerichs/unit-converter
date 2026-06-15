@@ -1,105 +1,70 @@
 import { useState } from "react";
 import { converters, categories } from "./converterConfig";
 
-/*
-    I had to learn this. Initially I was writing all of the conversions, which was very messy and complex.
+const opposite = {
+    left: "right",
+    right: "left",
+};
 
-    This normalization pattern takes any temperature and uses C as the intermediary to get to the desired value.
-
-    toBase: converts the unit to C
-    fromBase: converts the unit from C to the unit we want.
-    
-    So we are using C as our normalization for every temp.
-
-    If we convert C -> F, first we get toBase, which is easy, we just return the value we are passed.
-    Next, we get fromBase which takes our baseValue, which is now in C, and converts it to F. 
-
-    This works because every formula is meant to go from C to something else or convert something else into C first.
-
-    We could do this with currency too, make every currency convert to USD (for example), and then convert that to everything else.
-*/
 export const useConverter = (initialValue = {
     category: "Temperature",
-    fromUnit: "F",
-    fromValue: 32,
-    toUnit: "C",
-    toValue: 0,
+    left: {
+        unit: "F",
+        value: 32,
+    },
+    right: {
+        unit: "C",
+        value: 0,
+    }
 }) => {
     const [ state, setState ] = useState(initialValue);
 
-    const convertLTR = ({
-        category,
-        fromUnit,
-        fromValue,
-        toUnit,
-    }) => {
-        const categoryConverters = converters[category];
+    const convert = (sourceUnit, targetUnit, value) => { 
+        const baseValue = converters[state.category][sourceUnit].toBase(value);
+        const derivedValue = converters[state.category][targetUnit].fromBase(baseValue);
 
-        if (!categoryConverters) return;
-
-        const baseValue = categoryConverters[fromUnit]?.toBase(fromValue); // This part takes the unit, so if we have F, we convert F -> C using toBase.
-        const toValue = categoryConverters[toUnit]?.fromBase(baseValue); // If we are trying to get to K, now we have F in C, which we then use the fromBase in K that converts C -> K.
-
-        setState({
-            category,
-            fromUnit,
-            fromValue,
-            toUnit,
-            toValue,
-        });
-    }
-
-    const convertRTL = ({
-        category,
-        fromUnit,
-        toUnit,
-        toValue
-    }) => {
-        const categoryConverters = converters[category];
-
-        if (!categoryConverters) return;
-
-        const baseValue = categoryConverters[toUnit]?.toBase(toValue);
-        const fromValue = categoryConverters[fromUnit]?.fromBase(baseValue);
-
-        console.log('hello');
-        
-
-        setState({
-            category,
-            fromUnit,
-            fromValue,
-            toUnit,
-            toValue,
-        });
-    }
+        return derivedValue;
+     }
 
     const updateCategory = (category) => {
-        setState(converters[category].defaultValues);
+        setState({
+            category,
+            left: converters[category].left,
+            right: converters[category].right,
+        });
     }
 
-    const updateUnits = (input, newUnit) => {
-        const side = input === "from" ? "fromUnit" : "toUnit";
-        const updated = {
-            ...state,
-            [side]: newUnit,
-        }
+    const updateUnits = (side, unit) => {
+        const sourceSide = opposite[side];
+        const sourceUnit = state[sourceSide].unit;
 
-        convertLTR(updated);
+        setState(prev => ({
+            ...prev,
+            [side]: {
+                unit,
+                value: convert(sourceUnit, unit, prev[sourceSide].value)
+            },
+        }));
     } 
 
-    const updateInputs = (input, value) => {
-        if (input === "to") {
-            convertRTL({
-                ...state,
-                toValue: value,
-            });
-        }
+    const updateInputs = (side, value) => {
+        const sourceSide = side;
+        const targetSide = opposite[side];
 
-        convertLTR({
-            ...state,
-            fromValue: value,
-        });
+        const sourceUnit = state[sourceSide].unit;
+        const targetUnit = state[targetSide].unit;
+
+        setState(prev => ({
+            ...prev,
+            [sourceSide]: {
+                ...prev[sourceSide],
+                value,
+            },
+            [targetSide]: {
+                ...prev[targetSide],
+                value: convert(sourceUnit, targetUnit, value),
+            }
+        }));
     }
 
     return {

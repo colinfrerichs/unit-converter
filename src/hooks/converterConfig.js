@@ -5,12 +5,13 @@ export const categories = {
 
 export const converters = {
     Temperature: {
-        defaultValues: {
-            category: "Temperature",
-            fromUnit: "F",
-            fromValue: 32,
-            toUnit: "C",
-            toValue: 0,
+        left: {
+            unit: "F",
+            value: 32,
+        },
+        right: {
+            unit: "C",
+            value: 0,
         },
         C: {
             toBase: (v) => v,
@@ -26,12 +27,13 @@ export const converters = {
         }
     },
     Length: {
-        defaultValues: {
-            category: "Length",
-            fromUnit: "Foot",
-            fromValue: 1,
-            toUnit: "Yard",
-            toValue: 0.333333,
+        left: {
+            unit: "Foot",
+            value: 1
+        },
+        right: {
+            unit: "Yard",
+            value: 0.333333,
         },
         Meter: {
             toBase: (v) => v,

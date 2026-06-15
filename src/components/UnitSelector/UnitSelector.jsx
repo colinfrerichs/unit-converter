@@ -1,7 +1,9 @@
+import "./UnitSelector.css";
+
 const UnitSelector = ({ label, units, side, selectedUnit, updateUnits }) => {
   const id = `${label}-unit-select`;
   return (
-    <div>
+    <div className="unit-selector">
       <label htmlFor={id}>{label}</label>
       <select
         id={id}

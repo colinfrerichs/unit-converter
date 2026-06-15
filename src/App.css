@@ -193,3 +193,81 @@
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.category-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 8px 10px;
+  font-size: 1rem;
+}
+
+.unit-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.from-container,
+.to-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+input[type="number"] {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #4c9ffe;
+  outline-offset: 2px;
+}
+
+.unit-container span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+  .unit-container {
+    grid-template-columns: 1fr;
+  }
+
+  .unit-container span {
+    transform: rotate(90deg);
+    margin: 8px 0;
+  }
+}

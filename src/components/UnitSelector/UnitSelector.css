@@ -1,0 +1,29 @@
+.unit-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unit-selector label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.unit-selector select {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  width: 100%;
+  cursor: pointer;
+}
+
+.unit-selector select:focus {
+  outline: 2px solid #4c9ffe;
+  outline-offset: 2px;
+}
+
+.unit-selector select:hover {
+  border-color: #999;
+}
